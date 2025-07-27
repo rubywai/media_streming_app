@@ -1,5 +1,6 @@
 import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class MobileVideoPlayer extends StatefulWidget {
   const MobileVideoPlayer({
@@ -23,8 +24,15 @@ class _MobileVideoPlayerState extends State<MobileVideoPlayer> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     BetterPlayerConfiguration configuration = BetterPlayerConfiguration(
       controlsConfiguration: BetterPlayerControlsConfiguration(
+        playerTheme: BetterPlayerTheme.material,
         enableAudioTracks: false,
         enableSubtitles: widget.type == 'hls',
         qualitiesIcon: Icons.video_camera_back_outlined,
