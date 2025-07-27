@@ -1,22 +1,24 @@
 import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flutter/material.dart';
 
-class MobileMp4Player extends StatefulWidget {
-  const MobileMp4Player({
+class MobileVideoPlayer extends StatefulWidget {
+  const MobileVideoPlayer({
     super.key,
     required this.link,
     required this.resolutions,
     required this.title,
+    required this.type,
   });
   final String link;
   final Map<String, String> resolutions;
   final String title;
+  final String type;
 
   @override
-  State<MobileMp4Player> createState() => _MobileMp4PlayerState();
+  State<MobileVideoPlayer> createState() => _MobileVideoPlayerState();
 }
 
-class _MobileMp4PlayerState extends State<MobileMp4Player> {
+class _MobileVideoPlayerState extends State<MobileVideoPlayer> {
   late BetterPlayerController _controller;
   @override
   void initState() {
@@ -24,9 +26,9 @@ class _MobileMp4PlayerState extends State<MobileMp4Player> {
     BetterPlayerConfiguration configuration = BetterPlayerConfiguration(
       controlsConfiguration: BetterPlayerControlsConfiguration(
         enableAudioTracks: false,
-        enableSubtitles: false,
+        enableSubtitles: widget.type == 'hls',
         qualitiesIcon: Icons.video_camera_back_outlined,
-        enableQualities: widget.resolutions.isNotEmpty,
+        enableQualities: widget.resolutions.isNotEmpty || widget.type == 'hls',
       ),
     );
     _controller = BetterPlayerController(configuration);
@@ -35,6 +37,9 @@ class _MobileMp4PlayerState extends State<MobileMp4Player> {
         BetterPlayerDataSourceType.network,
         widget.link,
         resolutions: widget.resolutions,
+        videoFormat: widget.type == 'hls'
+            ? BetterPlayerVideoFormat.hls
+            : BetterPlayerVideoFormat.other,
       ),
     );
     _controller.play();

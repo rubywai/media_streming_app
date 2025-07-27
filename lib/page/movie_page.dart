@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:media_streming_app/data/movie_response.dart';
 import 'package:media_streming_app/movie_provider/movie_provider.dart';
-import 'package:media_streming_app/page/movie_players/mobile_mp4_player.dart';
+import 'package:media_streming_app/page/movie_players/mobile_player.dart';
 import 'package:provider/provider.dart';
 
 class MoviePage extends StatefulWidget {
@@ -50,24 +50,23 @@ class _MoviePageState extends State<MoviePage> {
         MovieResponse movie = movies[position];
         return InkWell(
           onTap: () {
-            if (movie.type == 'mp4') {
-              String? link = movie.videoLink;
-              Map<String, String>? resolutions = movie.resolutions?.toJson();
-              String? title = movie.name;
-              if (link != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) {
-                      return MobileMp4Player(
-                        link: link,
-                        resolutions: resolutions ?? {},
-                        title: title ?? "Video",
-                      );
-                    },
-                  ),
-                );
-              }
+            String? link = movie.videoLink;
+            Map<String, String>? resolutions = movie.resolutions?.toJson();
+            String? title = movie.name;
+            if (link != null) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) {
+                    return MobileVideoPlayer(
+                      link: link,
+                      resolutions: resolutions ?? {},
+                      title: title ?? "Video",
+                      type: movie.type ?? 'mp4',
+                    );
+                  },
+                ),
+              );
             }
           },
           child: Card(
