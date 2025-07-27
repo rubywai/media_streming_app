@@ -27,16 +27,22 @@ class _MobileVideoPlayerState extends State<MobileVideoPlayer> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
     ]);
     BetterPlayerConfiguration configuration = BetterPlayerConfiguration(
+      overlay: Align(
+        alignment: Alignment.topRight,
+        child: Text(
+          "Ruby Learner ",
+        ),
+      ),
       controlsConfiguration: BetterPlayerControlsConfiguration(
         playerTheme: BetterPlayerTheme.material,
         enableAudioTracks: false,
         enableSubtitles: widget.type == 'hls',
         qualitiesIcon: Icons.video_camera_back_outlined,
         enableQualities: widget.resolutions.isNotEmpty || widget.type == 'hls',
+        progressBarBackgroundColor: Colors.red,
+        progressBarBufferedColor: Colors.green,
       ),
     );
     _controller = BetterPlayerController(configuration);
@@ -50,7 +56,6 @@ class _MobileVideoPlayerState extends State<MobileVideoPlayer> {
             : BetterPlayerVideoFormat.other,
       ),
     );
-    _controller.play();
   }
 
   @override
