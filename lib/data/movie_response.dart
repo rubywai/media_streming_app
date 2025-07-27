@@ -73,11 +73,11 @@ class Resolutions {
         medium: medium ?? this.medium,
         large: large ?? this.large,
       );
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['LOW'] = low;
-    map['MEDIUM'] = medium;
-    map['LARGE'] = large;
+  Map<String, String> toJson() {
+    final map = <String, String>{};
+    map['LOW'] = low.toString();
+    map['MEDIUM'] = medium.toString();
+    map['LARGE'] = large.toString();
     return map;
   }
 }
