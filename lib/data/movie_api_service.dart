@@ -6,7 +6,9 @@ class MovieApiService {
   final Dio _dio = Dio()
     ..options.baseUrl = "https://videoapi.rubylearner.com/"
     ..interceptors.add(
-      PrettyDioLogger(),
+      PrettyDioLogger(
+        responseBody: true,
+      ),
     );
   Future<List<MovieResponse>> getMovies() async {
     final response = await _dio.get("api");

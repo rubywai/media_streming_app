@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:media_streming_app/movie_provider/movie_provider.dart';
-import 'package:media_streming_app/page/movie_page.dart';
+import 'package:get_it/get_it.dart';
+
 import 'package:provider/provider.dart';
 
-void main() {
+import 'movie_provider/movie_provider.dart';
+import 'page/movie_page.dart';
+import 'utils/device_utils.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  bool isDeviceTv = await isDeviceAndroidTV();
+  GetIt.I.registerSingleton<bool>(isDeviceTv);
   runApp(const MyApp());
 }
 
