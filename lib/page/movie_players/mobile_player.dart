@@ -1,6 +1,7 @@
-import 'package:better_player_plus/better_player_plus.dart';
+import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 
 class MobileVideoPlayer extends StatefulWidget {
   const MobileVideoPlayer({
@@ -24,11 +25,18 @@ class _MobileVideoPlayerState extends State<MobileVideoPlayer> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    bool isTV = GetIt.I.get<bool>();
+    if (!isTV) {
+      SystemChrome.setPreferredOrientations(
+        [
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown,
+        ],
+      );
+    }
     BetterPlayerConfiguration configuration = BetterPlayerConfiguration(
+      autoPlay: isTV,
+      fullScreenByDefault: isTV,
       overlay: Align(
         alignment: Alignment.topRight,
         child: Text(
@@ -36,7 +44,7 @@ class _MobileVideoPlayerState extends State<MobileVideoPlayer> {
         ),
       ),
       controlsConfiguration: BetterPlayerControlsConfiguration(
-        playerTheme: BetterPlayerTheme.material,
+        playerTheme: isTV ? BetterPlayerTheme.tv : BetterPlayerTheme.tv,
         enableAudioTracks: false,
         enableSubtitles: widget.type == 'hls',
         qualitiesIcon: Icons.video_camera_back_outlined,
